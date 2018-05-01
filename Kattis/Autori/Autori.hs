@@ -1,0 +1,3 @@
+getAbbr = do
+  names<-getLine
+   
