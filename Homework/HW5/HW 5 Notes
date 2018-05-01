@@ -1,0 +1,32 @@
+id x = x  -- id.1
+
+[]   ++ ys = []              -- (++).1
+x:xs ++ ys = x : (xs ++ ys)  -- (++).2
+
+xs ++ [] = xs  -- (++).right-identity
+
+-- The list functor
+
+fmap g [] = []                   -- [].fmap.1
+fmap g (x:xs) = g x : fmap g xs  -- [].fmap.2
+
+fmap id xs = xs  -- [].Functor.identity
+
+pure x = x:[]  -- [].pure.1
+
+gs <*> [] = []  -- [].(<*>).1
+[] <*> xs = []  -- [].(<*>).2
+(g:gs) <*> xs = fmap g xs ++ gs <*> xs  -- [].(<*>).3
+
+-- The Maybe functor
+
+fmap g Nothing  = Nothing     -- Maybe.fmap.1
+fmap g (Just x) = Just (g x)  -- Maybe.fmap.2
+
+fmap id v = v  -- Maybe.Functor.identity
+
+pure x = Just x  -- Maybe.pure.1
+
+g <*> Nothing = Nothing
+Nothing <*> v = Nothing
+Just g <*> Just x = Just (g x)

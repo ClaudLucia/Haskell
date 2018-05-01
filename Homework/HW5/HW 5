@@ -1,0 +1,88 @@
+Prove the applicative identity law for the list functor, P(v): pure id <*> v = v.
+
+Proof of P([])
+--------------
+pure id <*> []       = []
+    {by [].(<*>).1}  |
+[]
+
+Proof of P(x:xs)
+----------------
+pure id <*> (x:xs)              = x:xs
+    {by [].pure.1}              |
+(id:[]) <*> (x:xs)              |
+    {by [].(<*>).3}             |
+fmap id (x:xs) ++ [] <*> (x:xs) |
+    {by Functor.[].identity}    |
+(x:xs) ++ [] <*> (x:xs)         |
+    {by [].(<*>).2}             |
+(x:xs) ++ []                    |
+    {by (++).right-identity}    |
+x:xs
+
+
+---------------------------------------------------------------------
+
+
+Prove the applicative homomorphism law for the list functor, P(f,x): pure f <*> pure x = pure (f x).
+
+
+pure f <*> pure []  = pure (f [])
+    {[].pure.1}     |   {[].pure.1}
+(f:[]) <*> pure []  |[]
+    {[].(<*>).1}    |
+[]                  |
+
+
+pure f <*> pure (x:xs)          =    pure (f (x:xs))
+    {[].pure.1}                 |       {id.1}
+(f:[]) <*> pure (x:xs)          | pure (x:xs)
+    {[].(<*>).3}                |       {[].pure.1}
+fmap f (x:xs) ++ [] <*> (x:xs)  | x:[]
+    {[].functor.identity}       |   {}
+(x:xs) ++ [] <*> (x:xs)         |
+    {(++).right-identity}       |
+[] <*> (x:xs)                   |
+    {[].(<*>).2}                |
+[]                              |
+
+-----------------------------------------------------------------
+
+
+
+Prove the applicative identity law for the Maybe functor, P(v): pure id <*> v = v.
+
+pure id <*> Noting   = Nothing
+    {Nothing.<*>.1}  |
+Nothing              |
+
+
+pure id <*> (Just x) = (Just x)
+    {Maybe.pure.1}     |
+Just id <*> Just x     |
+    {Nothing.(<*>).3}  |
+Just (id x)            |
+    {id.1}             |
+Just x                 |
+
+
+-------------------------------------------------------
+
+
+Prove the applicative homomorphism law for the Maybe functor, P(f,x): pure f <*> pure x = pure (f x).
+
+pure f <*> pure Nothing =  pure (f Nothing)
+    {Noting.(<*>).3}       |    {id.1}
+Nothing                    | pure Nothing
+                           |    {Maybe.pure.1}
+                           | Nothing
+
+
+
+pure f <*> pure (Just x) = pure (f Just x)
+    {Maybe.pure.1}        |   {Maybe.fmap.2}
+Just f <*> pure (Just x)  | Just f x
+    {Maybe.pure.1}        |
+Just f <*> Just x         |
+    {Nothing.(<*>).3}     |
+Just f x                  |

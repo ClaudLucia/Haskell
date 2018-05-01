@@ -1,0 +1,59 @@
+Definitions
+Here are definitions that will be useful for proving the rules below.
+
+[]   ++ ys = ys              -- (++).1
+x:xs ++ ys = x : (xs ++ ys)  -- (++).2
+
+map g [] = []                    -- [].map.1
+map g (x:xs) = g x : map g xs   -- [].map.2
+
+foldr f z [] = z                      -- foldr.1
+foldr f z (x:xs) = f x (foldr f z xs) -- foldr.2
+
+
+
+Proofs
+Prove that append is a right fold, 
+
+P(v): xs ++ ys = foldr (:) ys xs.
+
+xs ++ ys    = foldr (:) ys xs
+   {(++).1}      {foldr.1}
+ys            ys
+
+
+Prove that map is a right fold, P(V): map f xs = foldr ((:).f) [] xs.
+
+map f xs       =     foldr ((:).f) [] xs
+    {[].map.2}          {foldr.1}
+xs                  xs
+
+
+
+
+
+
+do-Notation
+Convert the following program into an equivalent form using monadic function only.
+
+//Each bind operator links the value to the left with a function to the right.
+
+main = do
+  x <- readLn
+  y <- readLn
+  putStrLn ("The average is " ++ show ((x + y) / 2))
+
+main = readLn >>= (\x -> readLn >>= (\y -> putStrLN $ "The average is " ++ show (x + y) / 2))
+
+
+
+Convert the following program into do-notation.
+
+main = readLn >>= (\x -> if x == 7 then putStrLn "Correct!" else putStrLn "Wrong!")
+
+main = do
+  x <- readLn
+  if x ==7 then
+    putStrLn ("Correct")
+  else
+    putStrLn ("Wrong")
