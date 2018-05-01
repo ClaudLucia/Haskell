@@ -1,0 +1,21 @@
+list Monad 
+    1.return x = x:[]
+    2.xs >>= f = concat (map f xs)
+
+-------------------------------------
+
+1.map f [] = []
+2.map f (x:xs) =  f x : map f xs
+
+1.concat [] = []
+2.concat (xs:xss) = xs ++ concat xss
+
+----------------------------------------
+
+1.[] ++ ys = ys
+2.(x:xs) ++ ys = x:(xs ++ ys)  ->  (++).associativity
+3.xs ++ [] = xs
+
+
+
+**If you see the right hand side then you can sub it for the left hand side and vice versa

@@ -1,0 +1,3 @@
+stack setup 
+stack build
+stack exec GuessingGame-Server

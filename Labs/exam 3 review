@@ -1,0 +1,229 @@
+
+
+
+
+
+
+
+
+**************ADT**********************
+Define a sum ADT or each of the following;
+
+the suit of a card in a typical deck of playing cards
+the rank (i.e. ace, 2,... jack, etc.) of a card
+
+what is the cardinality of each ADT?
+
+--data Card = Int | String
+data Suit = Heart | Spade | Club | Diamond
+Cardinality (size of the set, numper of possible values)
+cardinality (Suit) = 4
+
+data Rank = One | Two | Three | .. | Ten | Queen | King | Jack | 
+    deriving (eq, Ord, Enum)
+cardinality (Rank) = 13
+
+
+            Card is the name of the constructor
+                 Ranks and Suit are the types of the constructor
+data Card = Card Rank Suit
+In Record syntax
+data Card = Card {rank :: Rank,
+                  suit :: Suit
+                  }
+
+cardinality (Card) = 4 * 13 = 52
+
+
+topCard = Card Seven Club
+show topCard
+    "Seven of Club"
+instance Show Card where 
+    show c = show (rank c) 
+             ++ " of " ++ 
+             show (suit c)
+
+
+--Won't work 
+show wCard = Rank ++ " of " ++ Suit
+
+--Unless
+show (Card r s ) = show r
+                   ++ " of " ++
+                   show s
+
+
+
+
+
+Define a product ADT to represent a playing card
+What is the cardinality of this ADT?
+
+data Suit = Heart Spade Club Diamond
+
+data Rank = 
+
+
+
+
+
+
+*****Record Syntax*****
+data Vec 2D = Vec 2D {getY :: Double,
+                      getY :: Double
+                     }
+
+
+
+**********Foldable and Traversable***************
+know their names and types
+fill in the name and finish the type
+
+fold
+foldr
+foldl
+foldmap
+tolist
+
+
+traverse
+sequencea 
+mapm
+sequence
+
+
+****************Lazy Evaluation****************
+
+
+[] ++ ys = ys
+(x:xs) ++ ys = x:(xs++ys) 
+map g [] = []
+map g (x:xs) = g x : map g xs
+head [] = error "..."
+head (x:_) = x
+
+
+head (map (*2)([2,4,6] ++ [8,10]))
+
+Start with the right variables for each expression
+
+
+
+let zs1 = [2,4,6] in          -- already in Normal Form
+let zs2 = [8,10] in
+let ys = zs1 ++ zs2 in
+let xs = map (*2) ys in       --Evaluate this but we need to evaluate ys 
+head xs  ---is xs empty? ^
+-----------------------------
+let zs2  = [8,10] in
+let ys = [2,4,6] ++ zs2 in    --subs for zs1
+let xs = map (*2) ys in
+head xs
+-----------------------------
+let zs2 = [8,10] in
+let ys' = [4,6] ++ zs2 in  
+let ys = 2:ys' in             --apply (++).2 and introduce new "thunk" ys'
+let xs = map (*2) ys in       --ys is now in WHNF
+head xs
+-----------------------------
+let zs = [8,10]
+let ys' = [4,6] ++ zs2 in
+let xs = map (*2) (2:ys') in  --subs for ys
+head xs
+-----------------------------
+let zs2 = [8,10] in
+let ys' = [4,6] ++ zs2 in
+let x = (*2) 2 in
+let xs' = map (*2) ys' in
+let xs = x:xs' in            --apply map.2 and ntroduce "thunk" x and xs'
+                             --xs i now in WHNF
+head xs
+-----------------------------
+let zs2 = [8,10] in
+let ys' = [4,6] ++ zs2 in
+let x = (*2) 2 in
+let xs' = map (*2) ys' in    --subs for xs
+head (x:xs')
+-----------------------------
+let zs2 = [8,10] in
+let ys' = [4,6] ++ zs2 in
+let x = (*2) 2 in
+let xs' =  map (*2) ys' in   --apply head.2
+x 
+-----------------------------
+let zs2 = [8,10] in 
+let ys' = [4,6] ++ zs2 in
+let xs' = map (*2) ys' in
+(*2) 2                       --subs for x
+-----------------------------
+let zs2 = [8,10] in
+let ys' = [4,6] ++ zs2 in
+let xs' = map (*2) ys' in
+4                             --reduce to BNF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Not on the Exam
+**"boxed" type **
+data DayOfMonth = DayOfMonth Int
+
+**"unboxed" type **
+newtype DayOfMonth = DayOfMonth Int

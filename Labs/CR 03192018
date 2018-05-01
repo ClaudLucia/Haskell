@@ -1,0 +1,44 @@
+class Functor f where
+	fmap :: (a->b)([a]->[b])
+
+
+instance Functor [] where 
+	1. fmap _ [] = []
+	2. fmap g (x:xs) = g x : fmap g xs
+
+id :: a -> a
+	1.id x = x
+
+(.)::(b->c) -> (a->b) -> (a->c)
+	1.f.g = \x -> f (g x)
+
+
+
+Identity
+fmap id []   =   id []
+{[].fmap.1}		{id.1}
+[]				[]
+
+fmap id (x:xs)   =   id (x:xs)
+{[].fmap.2}         {id.1}
+id x : fmap id xs	x:xs
+{id.1}
+x : fmap id xs //-> fmap id 
+{IH}
+x:xs
+
+
+Distribution over Composition
+fmap (f . g) [] = (fmap f . fmap g) []
+{[].fmap.1}		  {(.).1}
+[]				  \x -> fmap f(fmap g [])
+				  {Beta Reduction}
+				  fmap f(fmap g [])
+				  {[].fmap.1}
+				  fmap f([])
+				  {[].fmap.1}
+				  []
+
+
+fmap (f . g) (x:xs) = (fmap f . fmap g) (x:xs)
+

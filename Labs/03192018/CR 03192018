@@ -1,0 +1,10 @@
+instance Functor [] where 
+	1. fmap _ [] = []
+	2. fmap g (x:xs) = g x: fmap g xs
+
+id :: a -> a
+		1.id x = x
+
+(.)::(b->c) -> (a->b) -> (a->c)
+	1.f.g = \x f (g x)
+

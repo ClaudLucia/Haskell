@@ -1,0 +1,19 @@
+1.reverse [] = []
+2.reverse (x:xs) = reverse xs ++ [x]
+
+P(xs): reverse (xs ++ ys) = reverse ys ++ reverse xs
+
+xs ++ []
+-------------
+(x:xs) ++ []
+x:(xs++[])
+x:xs
+
+--------------------------------------------
+
+
+reverse (xs ++ ys) | reverse ys ++ reverse xs
+   {(reverse).2}   |    {(reverse).2}
+reverse(ys:xs)     | reverse ys ++ [reverse xs]
+                   | reverse (ys:xs)
+                   |

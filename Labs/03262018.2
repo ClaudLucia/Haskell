@@ -1,0 +1,67 @@
+m >>= return = m
+Use two cases,empty and nonempty induction
+----------------------------------------
+[] >>= return      =      []
+    {[].monad.2}
+concat (map return [])
+    {map.1}
+concat []
+    {[].concat.1}
+[]
+
+--------------------------------------------------
+
+IH = P(xs) xs >>= return = xs
+
+(x:xs) >>= return      =              (x:xs)
+    {[].monad.2}
+concat (map return (x:xs))
+    {map.2}
+concat (return x : map return xs)
+    {[].monad.1}
+concat ((x:[]) : (map return xs))
+    {concat.2}
+(x:[]) ++ concat (map return xs)
+    {[].monad.2}
+(x:[]) ++ xs >>= return
+    {IH}
+(x:[]) ++ xs
+    {(++).associativity}
+x : ([]++ xs)
+    {(++).right-identity}
+x:xs
+
+
+
+
+
+____________________________________________________________
+(m >>= f) >>= g = m >>= (\x -> f x >>= g)
+Use two case, emty and non empty induction
+
+([] >>= f) >>= g            =  [] >>= (\x -> f x >>= g)
+    {[].monad.2}            |   {[].monad.2}
+concat (map f []) >>= g     | concat (map (\x -> f x >>= g) [])
+    {map.1}                 |   {map.1}
+concat [] >>= g             |concat []
+    {concat.1}              |   {concat.1}
+[] >>= g                    |[]
+    {[].monad.2}            |
+concat (map g [])           |
+    {map.1}                 |
+concat []                   |
+    {concat.1}              |
+[]                          |
+
+
+------------------------------------------------------------
+
+
+((x:xs) >>= f) >>= g            =  (x:xs) >>= (\x -> f x >>= g)
+    {[].monad.2}
+(concat (map f (x:xs))) >>= g
+    {map.2}
+(concat (f x : (map f xs))) >>= g
+    {concat.2}
+f x ++ concat (map f xs) >>= g
+    {monad.2}????
